@@ -4,12 +4,22 @@
 #       3. All the URLs that the page points/links to
 
 
+import sys
 from bs4 import BeautifulSoup
 from selenium import webdriver
-import sys
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
+from webdriver_manager.chrome import ChromeDriverManager
 
 def fetch_page_text(url):
-    driver = webdriver.Chrome()
+    options = Options()
+    options.add_argument("--headless")
+    options.add_argument("--no-sandbox")
+
+    driver = webdriver.Chrome(
+        service=Service(ChromeDriverManager().install()),
+        options=options
+    )
     driver.get(url)
     html = driver.page_source
     driver.quit()
